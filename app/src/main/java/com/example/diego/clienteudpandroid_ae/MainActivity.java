@@ -7,6 +7,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -22,11 +23,21 @@ public class MainActivity extends ActionBarActivity {
 
     private void LevantarXML() {
     boton=(Button)findViewById(R.id.button);
-    editMsn=(EditText)findViewById(R.id.editText)
+    editMsn=(EditText)findViewById(R.id.editMsn);
+    editIpServer=(EditText)findViewById(R.id.editIpServer);
+        editPort=(EditText)findViewById(R.id.editPort);
     }
 
      private void Botones(){
+boton.setOnClickListener(new View.OnClickListener() {
+    @Override
+    public void onClick(View v) {
+        Toast.makeText(getApplicationContext(),"Mensaje: '"+editMsn.getText().toString()+"'",Toast.LENGTH_SHORT).show();
 
+
+
+    }
+});
 
      }
 

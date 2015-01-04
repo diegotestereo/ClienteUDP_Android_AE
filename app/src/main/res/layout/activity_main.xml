@@ -53,4 +53,14 @@
         android:layout_alignParentStart="true"
         android:text="9000" />
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Servidor:  \n"
+        android:id="@+id/text_Servidor"
+        android:layout_below="@+id/editPort"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="54dp" />
+
 </RelativeLayout>

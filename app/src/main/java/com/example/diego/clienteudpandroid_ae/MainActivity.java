@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.IOException;
@@ -21,6 +22,7 @@ import java.net.UnknownHostException;
 public class MainActivity extends ActionBarActivity {
     Button boton;
     EditText editMsn,editIpServer,editPort;
+    TextView text_Servidor;
     private static final String LOGCAT ="API UDP";
     String mensaje ;
 
@@ -38,16 +40,18 @@ public class MainActivity extends ActionBarActivity {
     }
 
     private void LevantarXML() {
-    boton=(Button)findViewById(R.id.button);
-    editMsn=(EditText)findViewById(R.id.editMsn);
-    editIpServer=(EditText)findViewById(R.id.editIpServer);
-     editPort=(EditText)findViewById(R.id.editPort);
+        boton=(Button)findViewById(R.id.button);
+        editMsn=(EditText)findViewById(R.id.editMsn);
+        editIpServer=(EditText)findViewById(R.id.editIpServer);
+        editPort=(EditText)findViewById(R.id.editPort);
+        text_Servidor = (TextView) findViewById(R.id.text_Servidor);
+
     }
 
      private void Botones(){
         boton.setOnClickListener(new View.OnClickListener() {
-    @Override
-    public void onClick(View v) {
+        @Override
+        public void onClick(View v) {
         Log.d(LOGCAT,"seapreto boton");
         Cliente();
 
@@ -64,18 +68,27 @@ public class MainActivity extends ActionBarActivity {
     String ipServer = editIpServer.getText().toString();
 
     try {
+
+        ////////    envia datos //////////////////////7
         DatagramSocket socket = new DatagramSocket();
         InetAddress local  = InetAddress.getByName(ipServer);// ip servidor
-        Log.d(LOGCAT, "ip : "+ local);
+
         int msg  = mensaje.length();// longitud del mensaje
-        byte []message=mensaje.getBytes();
-        DatagramPacket paquete = new DatagramPacket(message,msg,local,port);
+        byte []message=mensaje.getBytes();// extrae el mensaje como bytes
+        DatagramPacket paquete = new DatagramPacket(message,msg,local,port);// envia mensaje , longitud del mensjae  , a que ip y puerto destino.
         socket.send(paquete);
-        socket.close();
+
+         //////////////////////// recibe datos del servidor//////////////
+
+        byte[] receiveData = new byte[1024];
+        paquete = new DatagramPacket(receiveData,receiveData.length);//
+        socket.receive(paquete);
+        String msnIN = new String(paquete.getData());
+        text_Servidor.append("- "+msnIN +"\n");
+        socket.close();// cierro socket
     } catch (SocketException e) {
         e.printStackTrace();
-        Log.d(LOGCAT, "Could not send discovery request", e);
-    } catch (UnknownHostException e) {
+       } catch (UnknownHostException e) {
         e.printStackTrace();
     } catch (IOException e) {
         e.printStackTrace();
